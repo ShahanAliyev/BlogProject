@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="bg-white py-5">
+    <div class="container py-5">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6 order-2 order-lg-1"><i class="fa fa-bar-chart fa-2x mb-3 text-primary"></i>
+                <h2 class="font-weight-light">{{ me.user.first_name }} {{ me.user.last_name }} about us page</h2>
+                <p class="font-italic text-muted mb-4">{{ me.bio }}</p><a href="#me"
+                    class="btn btn-light px-5 rounded-pill shadow-sm">Learn More</a>
+            </div>
+            <div class="col-lg-5 px-5 mx-auto order-1 order-lg-2"><img
+                    src="https://bootstrapious.com/i/snippets/sn-about/img-1.jpg" alt="" class="img-fluid mb-4 mb-lg-0">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-lg-5">
+        <h4 class="display-4 font-weight-light">Contact Us</h4>
+    </div>
+</div>
+
+<div class="bg-white rounded shadow-sm py-5 px-4 d-flex flex-column align-items-center w-25">
+    <img src="{{ me.image.url }}" alt="{{ me.user.first_name }}" class="img-fluid mb-3 img-thumbnail shadow-sm">
+    <h5 class="mb-0">{{ me.user.first_name }} {{ me.user.last_name }}</h5> <span
+        class="small text-uppercase text-muted">{{ me.work_status}}</span>
+    <ul id="me" class="social mb-0 list-inline mt-3">
+        {% for social in socials %}
+        <a href="{{ social.url }}"><img src="{{ social.image.url }}"
+                style="width: 20px ; height: 20px; border-radius: 50%; border: 1px solid blue;"
+                alt="{{ social.name }}"></a>
+        {% endfor %}
+    </ul>
+</div>
+
+
+<footer class="bg-light pb-5">
+    <div class="container text-center">
+        <p class="font-italic text-muted mb-0">&copy; Copyrights {{ me.user.first_name }}. All rights reserved.</p>
+    </div>
+</footer>
+{% endblock %}

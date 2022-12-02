@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="form-group container w-50 mt-5">
+                <h2>Register</h2>
+                <form action="" method="POST" enctype="multipart/form-data">
+                        {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div id="form_errors">
+                                {% for key, value in form.errors.items %}
+                                    <strong>{{ value }}</strong>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% csrf_token %}
+                        {{ form.username.name|capfirst  }}:
+                        <br>
+                        {{ form.username }}
+                        {{ form.email.name|capfirst  }}:
+                        <br>
+                        {{ form.email }}
+                        {{ form.first_name.name|capfirst  }}:
+                        <br>
+                        {{ form.first_name }}
+                        {{ form.last_name.name|capfirst  }}:
+                        <br>
+                        {{ form.last_name }}
+                        {{ form.password1.name|capfirst  }}:
+                        <br>
+                        {{ form.password1 }}
+                        {{ form.password2.name|capfirst  }}:
+                        <br>
+                        {{ form.password2 }}
+                        <br>
+                        <button class="btn btn-primary" >Register</button>        
+                </form>
+        </div>
+{% endblock %}

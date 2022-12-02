@@ -7,7 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Core.urls')),
     # path('users/', include('django.contrib.auth.urls')),
-    path('users/', include('User.urls')),
+    path('', include('User.urls')),
 ]
 
 if settings.DEBUG:
