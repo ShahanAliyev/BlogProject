@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3 class="mt-3 mb-3">{{ blog.header }}</h3>
+<p>{{ blog.text }}</p>
+{% for comment in comments %}
+{% if comment.blog.id == blog.id %}
+<div class="card-body">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex flex-row align-items-center">
+            <img src="{{ comment.user.customuser.image.url }}" alt="{{ comment.user.name }}" width="25" height="25" />
+            <p class="small mb-0 ms-2">{{ comment.user.first_name }} {{ comment.user.last_name }} </p>
+        </div>
+    </div>
+    <p>{{ comment.text }}</p>
+</div>
+{% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<div class="form-group w-25">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary">POST</button>
+    </form>
+</div>
+{% endif %}
+<a href="{% url 'home' %}">Go to back</a>
+{% endblock %}

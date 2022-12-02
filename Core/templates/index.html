@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block navbar %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Custom Filter
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="?read_count={{read_count}}">Read Count</a></li>
+        <li><a class="dropdown-item" href="?creation_time={{creation_time}}">Created At</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block search %}
+    <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="filtered_value">
+        <button class="btn btn-light" type="submit">Search</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-5">
+        <div class="col row">
+            {% for category in categories %}
+            <div class="col d-flex justify-content-around">
+                
+                <div class="d-flex flex-column">
+                    <a href="?category={{category.name}}"> <p class="m-5 mt-0 mb-2"> {{ category.name }} </p> </a>
+                    <img src="{{ category.image.url }}" class="rounded float-start" style="width: 160px ; height: 80px;" alt="{{ category.name }}">
+                </div>
+            </div>  
+            {% endfor %}
+        </div> 
+    </div>
+    <div class="row d-flex justify-content-center">
+        {% for blog in blogs %}
+            <div class="card m-3 col-3" style="width: 18rem;">
+                <img src="{{ blog.image.url }}" class="pt-3" alt="{{ blog.header }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ blog.header }}</h5>
+                    <p class="card-text">{{ blog.text|slice:":15" }}</p>
+                    <a href="{% url 'detail' blog.id %}">Go to detail</a>   
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
