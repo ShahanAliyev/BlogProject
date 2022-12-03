@@ -20,9 +20,6 @@
                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'contact_us' %}">Contact Us</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'about_us' %}">About Us</a>
               </li>
               {% if user.is_authenticated %}
@@ -42,7 +39,17 @@
               {% endif %}
               {% block navbar %}
               {% endblock %}
-              
+              <li class="nav-item">
+                <ul>
+                  <li class="text-light">
+                    {{ weather.city }}
+                  </li>
+                  <li class="text-light">
+                    {{ weather.weather }}, 
+                    {{ weather.description|capfirst }}
+                  </li>
+                </ul>
+              </li>
             </ul>
             {% block search %}
               

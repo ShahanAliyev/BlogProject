@@ -3,7 +3,7 @@
 
 <div class=" mt-3 row d-flex justify-content-start w-75" style=" background-color: rgb(236, 234, 229);">
     <h3 class="mt-3 m-4 mb-5">{{ blog.header }}</h3>
-    <div class="col-5 m-4 mt-0 mb-0" >
+    <div class="col-5 m-4 mt-0 mb-0">
         <img src="{{ blog.image.url }}" alt="{{ blog.header }}" style="max-width: 400px ; max-height: 280px;">
         <p class="mt-3">{{ blog.text }}</p>
     </div>
@@ -32,7 +32,25 @@
         </div>
     </div>
 </div>
-
 {% endif %}
-<a href="{% url 'home' %}">Go to back</a>
+<ul>
+    {% if not user.is_authenticated %}
+    <li>
+        <form action="{% url 'blog_like' pk=blog.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" name="blog-id" value="{{blog.id}}" class="btn btn-primary ml-3">
+                {% if like_status %}
+                Unlike
+                {% else %}
+                Like
+                {% endif %}
+            </button>
+        </form>
+    </li>
+    {% endif %}
+    <li>
+        <a href="{% url 'home' %}">Go to back</a>
+    </li>
+</ul>
+
 {% endblock %}

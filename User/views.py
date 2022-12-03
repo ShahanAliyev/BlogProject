@@ -16,10 +16,6 @@ class UserLoginView(LoginView):
     template_name = 'login.html'
     success_url = '/'
 
-class ContactUsView(ListView):
-    template_name = 'contact-page.html'
-    model = CustomUser
-    queryset = 'blogs'
 
 class AboutUsView(ListView):
     template_name = 'about-us.html'

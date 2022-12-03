@@ -1,11 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
-from .models import Blog, Category, Comment
+from django.shortcuts import reverse
+from django.views.generic import ListView, CreateView
+from .models import Blog, Category, Comment, IpModel
 from .forms import BlogForm, CommentForm
 from django.db.models import Q
 from django.urls import reverse_lazy
-
-
+from django.http import HttpResponseRedirect
 
 
 class HomePageView(ListView):
@@ -36,7 +35,6 @@ class HomePageView(ListView):
             queryset = Blog.objects.order_by('read_count')
         elif filtered_value:
             queryset = Blog.objects.filter(Q(header__icontains = filtered_value) | Q(text__icontains = filtered_value) )
-            print(queryset)
         else:
             queryset = Blog.objects.all()
         return queryset
@@ -69,7 +67,7 @@ class BlogDetailView(DetailViewMixin, CreateView):
         form.instance.blog = Blog.objects.get(id = self.kwargs['pk'])
 
         return super().form_valid(form)
-
+    
     def get(self, request, *args, **kwargs):
         pk = self.kwargs['pk']
         post = Blog.objects.get(pk = pk)
@@ -77,7 +75,23 @@ class BlogDetailView(DetailViewMixin, CreateView):
         read_count +=1
         post.read_count = read_count
         post.save()
+
         return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        like_status = False
+        ip = get_client_ip(self.request)
+
+        if Blog.objects.filter(likes__ip = ip):
+            like_status = True
+            context['like_status'] = like_status
+        else:
+            like_status=False
+            context['like_status'] = like_status
+
+        return context
         
 class AddBlogView(CreateView):
     form_class = BlogForm
@@ -87,3 +101,24 @@ class AddBlogView(CreateView):
     def form_valid(self,form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+def BlogLike(request, pk):
+
+    blog_id = request.POST.get('blog-id')
+    blog = Blog.objects.get(pk = blog_id )
+    ip = get_client_ip(request)
+    if not IpModel.objects.filter(ip=ip).exists():
+        IpModel.objects.create(ip=ip)
+    if blog.likes.filter(id=IpModel.objects.get(ip=ip).id).exists():
+        blog.likes.remove(IpModel.objects.get(ip=ip))
+    else:
+        blog.likes.add(IpModel.objects.get(ip=ip))
+    return HttpResponseRedirect(reverse('detail', args=[blog_id]))
