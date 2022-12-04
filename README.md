@@ -2,16 +2,17 @@
 
 env faylı yaradılmalıdır
 pip install -r requirements.txt
-.env faylı yaradılmalıdır və aşağıdakı hissələr əlavə olunmalıdır
+.env faylı yaradılmalıdır və aşağıdakı hissələr əlavə olunmalıdır.
 .env faylında sonuncu key weather apidan gələn keydir
-<!--
+
  POSTGRES_DB = Blog_db
 POSTGRES_USER = sahan
 POSTGRES_HOST = db
 POSTGRES_PORT = 5432
 POSTGRES_PASSWORD = 123
 DEBUG=False
-key = '97a718f8f6ef703241dbb3b5c06afff0' -->
+key = '97a718f8f6ef703241dbb3b5c06afff0'
+
 docker-compose up -d --build
 docker -ps a
 c_id =  IMAGE-də blogproject_webin qarşısındakı CONTAINER ID götürülür
