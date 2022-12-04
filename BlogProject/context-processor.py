@@ -1,8 +1,9 @@
 import requests
+import os
 
 def extras(request):
 
-    key = '97a718f8f6ef703241dbb3b5c06afff0'
+    key = os.environ.get('key')
     url = f'https://api.openweathermap.org/data/2.5/weather?q=Baku&appid={key}&units=metric'
     api_data = requests.get(url.format()).json()
 

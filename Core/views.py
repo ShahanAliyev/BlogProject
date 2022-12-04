@@ -25,14 +25,14 @@ class HomePageView(ListView):
 
         category = self.request.GET.get('category')
         creation_time = self.request.GET.get('creation_time')
-        read_count = self.request.GET.get('-read_count')
+        read_count = self.request.GET.get('read_count')
         filtered_value = self.request.GET.get('filtered_value')
         if category:
             queryset = Blog.objects.filter(category__name = category)
         elif creation_time:
-            queryset = Blog.objects.order_by('-read_count')
+            queryset = Blog.objects.order_by('-created_at')
         elif read_count:
-            queryset = Blog.objects.order_by('read_count')
+            queryset = Blog.objects.order_by('-read_count')
         elif filtered_value:
             queryset = Blog.objects.filter(Q(header__icontains = filtered_value) | Q(text__icontains = filtered_value) )
         else:
