@@ -4,10 +4,13 @@ from .models import Blog, Comment
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
-        fields = ('header', 'text', 'image')
+        fields = ('header', 'category','text', 'image')
 
         widgets = {
             'header': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'category': forms.SelectMultiple(attrs={
                 'class': 'form-control',
             }),
             'text': forms.Textarea(attrs={
